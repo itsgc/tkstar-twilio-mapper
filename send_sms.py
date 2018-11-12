@@ -1,18 +1,16 @@
 import os
 import yaml
+import utils
 
 from twilio.rest import Client
 
 
-def make_settings(settingsfile_path):
-    with open(settingsfile_path, 'r') as settingsfile:
-        return yaml.load(settingsfile)
-
-settings = make_settings(os.environ.get('SETTINGS_FILE'))
+settings = utils.make_settings(os.environ.get('SETTINGS_FILE'))
 
 ACCOUNT_SID = settings['account_sid']
 AUTH_TOKEN = settings['account_token']
 TWILIO_SENDER_NUMBER = settings['twilio_sender_number']
+TWILIO_RECIPIENT_NUMBER = settings['tracker01']
 
 def send_sms(dest='', source='', message='Python Test'):
 	client = Client(ACCOUNT_SID, AUTH_TOKEN)
@@ -20,7 +18,7 @@ def send_sms(dest='', source='', message='Python Test'):
 	return new_message.sid
 
 def main():
-	print("Sending message.. " + send_sms(dest='+447491838747', source=TWILIO_SENDER_NUMBER))
+	print("Sending message.. " + send_sms(dest=TWILIO_RECIPIENT_NUMBER, source=TWILIO_SENDER_NUMBER, message='G123456#'))
 
 if __name__ == "__main__":
 	main()
