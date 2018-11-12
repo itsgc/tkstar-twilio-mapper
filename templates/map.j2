@@ -1,0 +1,39 @@
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Google Maps - TKStar Mapper </title>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=visualization&sensor=true_or_false&key={{ api_key }}"></script>
+<script type="text/javascript">
+    function initialize() {
+        var centerlatlng = new google.maps.LatLng(51.596740, -0.175990);
+        var myOptions = {
+            zoom: 13,
+            center: centerlatlng,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+		var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+		{% for entry in coords %}
+		{% set data = entry.computed_coords.split(',') %}
+        /* console.log({{ '%0.6f' % data[0]|float }}, {{ '%0.6f' % data[1]|float }}) */
+        var latlng = new google.maps.LatLng({{ '%0.6f' % data[0]|float }}, {{ '%0.6f' % data[1]|float }});
+        {% if entry.tracker_label == 'Tracker01' %}
+        var img = new google.maps.MarkerImage('/static/6495ED.png');
+        {% elif entry.tracker_label == 'Tracker02' %}
+        var img = new google.maps.MarkerImage('/static/6B8E23.png');
+        {% endif %}
+        var marker = new google.maps.Marker({
+        title: "{{ entry.tracker_label }} - {{ entry.timestamp.replace(microsecond=0).isoformat() }}",
+        icon: img,
+        position: latlng
+        });
+        marker.setMap(map);
+        {% endfor %}
+
+    }
+</script>
+</head>
+<body style="margin:0px; padding:0px;" onload="initialize()">
+    <div id="map_canvas" style="width: 100%; height: 100%;"></div>
+</body>
+</html>
