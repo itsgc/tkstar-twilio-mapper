@@ -16,7 +16,7 @@ PyJWT==1.6.4
 pyproj==1.9.5.1
 PySocks==1.6.8
 pytz==2018.7
-PyYAML==5.1
+PyYAML==5.4
 requests==2.20.1
 six==1.11.0
 SQLAlchemy==1.2.14
